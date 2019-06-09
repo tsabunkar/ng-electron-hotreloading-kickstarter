@@ -1,8 +1,9 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-let win, serve;
+let win;
+let serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -14,7 +15,7 @@ function createWindow() {
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: 700,
+    width: 900,
     height: size.height,
     webPreferences: {
       nodeIntegration: true
@@ -40,6 +41,8 @@ function createWindow() {
   if (serve) {
     win.webContents.openDevTools();
   }
+
+  win.webContents.on('did-finish-load', () => {});
 
   // Emitted when the window is closed.
   win.on('closed', () => {
